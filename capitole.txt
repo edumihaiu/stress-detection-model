@@ -1,0 +1,53 @@
+6:30 PM
+
+Da, absolut — 60 de pagini e foarte fezabil pentru proiectul ăsta. De fapt e dimensiunea standard pentru o diplomă la Calculatoare UTB.
+
+Uite cum se împart paginile natural:
+Structura celor 60 de pagini
+
+Introducere — 8 pagini
+
+    Context și motivație (ai deja ~2 pagini scrise)
+    Stadiul actual (ai deja ~1 pagină)
+    Obiective (ai deja ~1 pagină)
+    Structura lucrării
+
+Fundamente teoretice — 12 pagini
+
+    Rețele neurale convoluționale
+    Microexpresii faciale și FACS
+    Optical flow
+    LoRaWAN și IoT
+    Sisteme embedded
+
+Proiectarea sistemului — 10 pagini
+
+    Arhitectura generală
+    Alegerea dataset-urilor și motivație
+    Preprocesare și augmentare
+    Arhitectura modelului CNN
+    Algoritmul de fuziune
+
+Implementare — 15 pagini
+
+    Mediul de dezvoltare
+    Pipeline antrenament cu grafice
+    Integrare RPi + cameră
+    Integrare modul LoRa
+    Cod comentat cu figuri
+
+Rezultate și evaluare — 10 pagini
+
+    Confusion matrix
+    Grafice acuratețe/loss
+    Comparație modele
+    Măsurători pe RPi (FPS, latență, consum)
+    Teste în condiții reale
+
+Concluzii — 3 pagini
+
+    Ce ai realizat
+    Limitări
+    Direcții viitoare
+
+Bibliografie — 2 pagini
