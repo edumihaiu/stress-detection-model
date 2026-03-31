@@ -1,3 +1,5 @@
+# prepare_raw_dataset.py
+
 import os
 import shutil
 import pandas as pd
@@ -8,7 +10,7 @@ OUT_DIR = "../dataset_curat"
 
 #  0 = relaxat, 1 = neutru, 2 = stresat
 FER_MAP = {'happy': 0, 'neutral': 1, 'surprise': 1, 'sad': 2, 'angry': 2, 'fear': 2, 'disgust': 2}
-AFFECTNET_MAP = {'Happiness': 0, 'Neutral': 1, 'Surprise': 1, 'Sadness': 2, 'Anger': 2, 'Fear': 2, 'Disgust': 2, 'Contempt': 2}
+AFFECTNET_MAP = {'happy': 0, 'neutral': 1, 'surprise': 1, 'sad': 2, 'anger': 2, 'fear': 2, 'disgust': 2, 'contempt': 2}
 CASME_MAP = {'happiness': 0, 'surprise': 1, 'sadness': 2, 'fear': 2, 'disgust': 2, 'repression': 2, 'contempt': 2, 'others': 1}
 RAFDB_MAP = {4: 0, 1: 1, 7: 1, 2: 2, 3: 2, 5: 2, 6: 2}
 
@@ -18,7 +20,7 @@ def create_dirs():
             os.makedirs(os.path.join(OUT_DIR, split, cls), exist_ok=True)
 
 def copy_fer_or_affectnet(dataset_name, map_dict):
-    for split in ['train', 'test']:  
+    for split in ['train', 'test']:
         real_split = "Train" if (dataset_name == "affectnet" and split == "train") else split
         real_split = "Test" if (dataset_name == "affectnet" and split == "test") else real_split
         
@@ -36,32 +38,30 @@ def copy_fer_or_affectnet(dataset_name, map_dict):
             
             for img in os.listdir(src_folder):
                 if img.endswith(('.jpg', '.png')):
-                    shutil.copy2(os.path.join(src_folder, img), os.path.join(dest_folder, f"{dataset_name}_{img}"))
-
+                    shutil.copy2(os.path.join(src_folder, img), os.path.join(dest_folder, f"{dataset_name}_{split}_{img}"))
 def process_casme():
     casme_dir = os.path.join(BASE_DIR, "casme2")
     if not os.path.exists(casme_dir):
         return
-        
     for emotion_folder in os.listdir(casme_dir):
         if emotion_folder not in CASME_MAP:
             continue
-            
         target_class = str(CASME_MAP[emotion_folder])
         src_folder = os.path.join(casme_dir, emotion_folder)
-        
         images = [f for f in os.listdir(src_folder) if f.endswith('.jpg')]
         if len(images) == 0:
             continue
-            
-        # 80% train, 20% test
         train_imgs, test_imgs = train_test_split(images, test_size=0.2, random_state=42)
-        
         for img in train_imgs:
-            shutil.copy2(os.path.join(src_folder, img), os.path.join(OUT_DIR, "train", target_class, f"casme_{img}"))
+            shutil.copy2(
+                os.path.join(src_folder, img),
+                os.path.join(OUT_DIR, "train", target_class, f"casme_{emotion_folder}_{img}")  # <-- fix
+            )
         for img in test_imgs:
-            shutil.copy2(os.path.join(src_folder, img), os.path.join(OUT_DIR, "test", target_class, f"casme_{img}"))
-
+            shutil.copy2(
+                os.path.join(src_folder, img),
+                os.path.join(OUT_DIR, "test", target_class, f"casme_{emotion_folder}_{img}")  # <-- fix
+            )
 def process_rafdb():
     raf_dir = os.path.join(BASE_DIR, "rafdb")
     
@@ -98,3 +98,15 @@ if __name__ == "__main__":
     process_casme()
     process_rafdb()
     print("dataset_clean created")
+
+total_src = 0
+total_dst = 0
+
+for split in ['train', 'test']:
+    for cls in ['0', '1', '2']:
+        folder = os.path.join(OUT_DIR, split, cls)
+        count = len(os.listdir(folder))
+        total_dst += count
+        print(f"{split}/{cls}: {count} fișiere")
+
+print(f"\nTotal în dataset_curat: {total_dst}")
