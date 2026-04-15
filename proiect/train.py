@@ -81,7 +81,7 @@ def train():
 
     early_stop = tf.keras.callbacks.EarlyStopping(
         monitor='val_accuracy',
-        patience=8,
+        patience=15,        # în loc de 10
         restore_best_weights=True,
         verbose=1
     )
@@ -89,9 +89,11 @@ def train():
     reduce_lr = tf.keras.callbacks.ReduceLROnPlateau(
         monitor='val_loss',
         factor=0.5,
-        patience=3,
+        patience=5,         # în loc de 3
+        min_lr=1e-7,        # lasă-l să scadă mai mult
         verbose=1
     )
+
 
     history = model.fit(
         train_ds,

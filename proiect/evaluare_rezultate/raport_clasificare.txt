@@ -1,0 +1,12 @@
+RAPORT COMPLET CLASIFICARE
+============================================================
+
+              precision    recall  f1-score   support
+
+     Relaxat     0.7914    0.8409    0.8154      6135
+      Neutru     0.6652    0.6519    0.6585      8372
+     Stresat     0.7973    0.7840    0.7906     13047
+
+    accuracy                         0.7566     27554
+   macro avg     0.7513    0.7590    0.7548     27554
+weighted avg     0.7558    0.7566    0.7560     27554

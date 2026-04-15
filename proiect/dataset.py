@@ -7,18 +7,21 @@ data_augmentation = tf.keras.Sequential([
     tf.keras.layers.RandomFlip("horizontal"),
     tf.keras.layers.RandomRotation(0.08),
     tf.keras.layers.RandomZoom(0.1),
+    # Astea de jos asteapta valori 0-255 din fabrica
     tf.keras.layers.RandomBrightness(0.15),
     tf.keras.layers.RandomContrast(0.15),
+    tf.keras.layers.RandomTranslation(0.05, 0.05),
 ])
 
 def prepare_data(ds, augment=False):
     AUTOTUNE = tf.data.AUTOTUNE
     
-    # from 0-255 to 0.0-1.0 (float)
-    ds = ds.map(lambda x, y: (tf.cast(x, tf.float32) / 255.0, y), num_parallel_calls=AUTOTUNE)
-    
     if augment:
+        # BAGAM FILTRELE PRIMA DATA (inainte sa impartim la 255)
         ds = ds.map(lambda x, y: (data_augmentation(x, training=True), y), num_parallel_calls=AUTOTUNE)
+        
+    # from 0-255 to 0.0-1.0 (float) - SPALAM PIXELII LA FINAL
+    ds = ds.map(lambda x, y: (tf.cast(x, tf.float32) / 255.0, y), num_parallel_calls=AUTOTUNE)
         
     return ds.prefetch(buffer_size=AUTOTUNE)
 

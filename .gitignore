@@ -9,10 +9,12 @@ env/
 
 data/
 datasets/
+dataset_curat/
 *.h5
 *.keras
 *.tflite
 *.pth
+
 
 .env
 

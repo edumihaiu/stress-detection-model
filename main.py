@@ -48,6 +48,7 @@ def emotion_to_stress(images, labels):
 
 print(train_dataset)
 print(test_dataset)
+print(te)
 
 train_dataset = train_dataset.map(emotion_to_stress).prefetch(tf.data.AUTOTUNE)
 test_dataset = test_dataset.map(emotion_to_stress).prefetch(tf.data.AUTOTUNE)
